@@ -1,5 +1,5 @@
 
-Const questions = [
+const questions = [
    
     {type: "list",
     name: "action",
