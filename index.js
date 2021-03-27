@@ -12,79 +12,118 @@ const connection = mysql.createConnection({
   ​
     // Be sure to update with your own MySQL password!
     password: 'rootroot',
-    database: ' ',
+    database: 'employeeDB',
   });
   ​
 
-// connection.connect((err) => {
-//     if (err) throw err;
-//     console.log(`connected as id ${connection.threadId}`);
-//   ​
-//     init();
-//   });
-//   ​
-//   function init(){
-//     inquirer.prompt([{
-//       type: "list",
-//       name: "whatToDo",
-//       message: "What would you like to do?",
-//       choices: [
-//         "View All Flavors",
-//         "Add A Flavor",
-//         "Exit"
-//       ]
-//     }]).then(function(response){
-//       switch(response.whatToDo){
-//         case "View All Flavors":
-//           viewFlavors();
-//           break;
-//         case "Add A Flavor":
-//           addFlavor();
-//           break;
-//         default:
-//           connection.end();
-//       }
-//     })
-//   }
-//   ​
-//   ​
-//   function viewFlavors(){
-//     connection.query("SELECT * FROM products", function(err, data){
-//       console.table(data);
-//       init();
-//     })
-//   }
-//   ​
-//   function addFlavor(){
-//     inquirer.prompt([{
-//       type: "input",
-//       name: "flavor",
-//       message: "What flavor would you like to add?"
-//     },
-//     {
-//       type: "input",
-//       name: "price",
-//       message: "How much does it cost?"
-//     },{
-//       type: "input",
-//       name: "quantity",
-//       message: "How many do you have?"
-//     }]).then(function(response){
-//       console.log(response);
-//       const query = "INSERT INTO products (flavor, price, quantity) VALUES (?, ?, ?);";
-//   ​
-//       const foo = connection.query(query, [response.flavor, response.price, response.quantity], function(err, data){
-//         console.log("Added flavor", response.flavor);
+connection.connect((err) => {
+  if (err) throw err;
+    console.log(`connected as id ${connection.threadId}`);
+
+
+    init();
+ });
+
+ function init(){
+inquirer.prompt([
+  {     
+    type: "list",
+  name: "action",
+  message: "What would you like to do?", 
+  choices: [
+  "View All Employees ", 
+  "View All Employees By Department", 
+  "Add An Employee",
+  "Remove Employee",
+  "Update Employee Role",
+  "Update Employee Manager",
+  "EXIT"]
+  },   
+]).then(function(response){
+  switch(response.whatToDo){
+    case "View All Employees":
+      viewAllEmployees();
+      break;
+      case "View All Employees By Department":
+      viewEmployeeDept();
+      break;
+      case "Add An Employee ":
+      addAnEmployee();
+      break;
+      case "Remove An Employee":
+      removeEmployee();
+      break;
+      case "Update Employee Role":
+      updateEmployeeRole();
+      break;
+      case "Update Employee Manager":
+      updateEmployeeManager();
+      break;
+      default:
+      connection.end();
+  }
+})
+};  ​
+ function viewAllEmployees(){
+connection.query("SELECT * FROM employee", function(err, data){
+console.table(data);
+ init();
+ })
+ } ​;
+
+function viewEmployeeDept(){
+
+
+};
+
+function addEmployee(){
+  inquirer.prompt([
+{
+  type: "input",
+  name: "id",
+  message: "What is the id number of the Employee?"
+},
+{
+  type: "input",
+  name: "firstName ",
+  message: "What is the first name of the Employee?"
+},
+{
+  type: "input",
+  name: "lastName ",
+  message: "What is the last name of the Employee?"
+},
+{
+type: "input",
+name: "role",
+message: "What is the name of the Employee's role?"
+},
+
+]).then(function(response){
+  console.log(response);
+  const query = "INSERT INTO employee (id, firstName, lastName) VALUES (?, ?, ?);";
+  const foo = connection.query(query, [response.id, response.firstName, response.lastName], function(err, data){
+ // console.log("Added flavor", response.flavor);
 //         console.log(foo.sql);
-//         init();
-//       })
-//     })
-//   }
-//   ​
-//   ​
-//   Collapse
-  
-  
+ init();
+ })
+})
+};
+function removeEmployee(){
+
+
+};
+
+function  updateEmployeeRole(){
+
+
+};
+
+function updateEmployeeManager(){
+
+
+}; 
+
   
   
   
