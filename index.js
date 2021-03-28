@@ -4,13 +4,13 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'localhost',
   ​
-    // Your port, if not 3306
+ // Your port, if not 3306
     port: 3306,
   ​
-    // Your username
+// Your username
     user: 'root',
   ​
-    // Be sure to update with your own MySQL password!
+// Be sure to update with your own MySQL password!
     password: 'rootroot',
     database: 'employee_DB',
   });
@@ -102,13 +102,23 @@ message: "What is the name of the Employee's role?"
 ]).then(function(response){
   console.log(response);
   const query = "INSERT INTO employee (id, firstName, lastName) VALUES (?, ?, ?);";
-  const foo = connection.query(query, [response.id, response.firstName, response.lastName], function(err, data){
- // console.log("Added flavor", response.flavor);
-//         console.log(foo.sql);
+
+
+  const addEmp = connection.query(
+    query, [response.addFirstName, response.addLastName, 
+    response.employeeRole, response.employeeManager], function(err, data){
+      console.log("Added Employee", response.addFirstName, response.addLastName);
+      console.table(addedEmp.sql);
  init();
  })
 })
 };
+
+
+
+
+
+
 function removeEmployee(){
 
 
