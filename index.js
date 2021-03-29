@@ -3,13 +3,10 @@ const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-  ​
  // Your port, if not 3306
     port: 3306,
-  ​
 // Your username
     user: 'root',
-  ​
 // Be sure to update with your own MySQL password!
     password: 'rootroot',
     database: 'employee_DB',
@@ -68,6 +65,8 @@ inquirer.prompt([
   }
 })
 };  ​
+
+
  function viewAllEmployees(){
 connection.query("SELECT * FROM employee", function(err, data){
 console.table(data);
@@ -125,7 +124,7 @@ message: "What is the name of the Employee's role?"
    
  init();
  });
-};
+})};
 
 function removeEmployee (){
 
