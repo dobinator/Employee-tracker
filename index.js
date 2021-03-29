@@ -33,6 +33,7 @@ inquirer.prompt([
   choices: [
   "View All Employees ", 
   "View All Employees By Department", 
+  "View ALL Roles",
   "Add An Employee",
   "Remove Employee",
   "Update Employee Role",
@@ -45,7 +46,10 @@ inquirer.prompt([
       viewAllEmployees();
       break;
       case "View All Employees By Department":
-      viewEmployeeDept();
+      viewDepartments();
+      break;
+      case "View All Roles":
+      viewRoles();
       break;
       case "Add An Employee ":
       addAnEmployee();
@@ -71,12 +75,21 @@ console.table(data);
  })
  } ​;
 
-function viewEmployeeDept(){
-
-
+function viewDepartments(){
+ connection.query("SELECT* FROM department", function(err, data){
+ console.table(data);
+ init(); 
+ })
 };
 
-function addEmployee(){
+function viewRoles(){
+connection.query("SELECT* FROM roles", function (err, data){
+  connection.table(data);
+  init();
+});
+}
+
+function addAnEmployee(){
   inquirer.prompt([
 {
   type: "input",
@@ -85,12 +98,12 @@ function addEmployee(){
 },
 {
   type: "input",
-  name: "firstName ",
+  name: "first_name ",
   message: "What is the first name of the Employee?"
 },
 {
   type: "input",
-  name: "lastName ",
+  name: "last_name ",
   message: "What is the last name of the Employee?"
 },
 {
@@ -101,14 +114,14 @@ message: "What is the name of the Employee's role?"
 
 ]).then(function(response){
   console.log(response);
-  const query = "INSERT INTO employee (id, firstName, lastName) VALUES (?, ?, ?);";
+  const query = "INSERT INTO employee (id, first_name, last_name) VALUES (?, ?, ?);";
 
 
   const addEmp = connection.query(
     query, [response.addFirstName, response.addLastName, 
     response.employeeRole, response.employeeManager], function(err, data){
       console.log("Added Employee", response.addFirstName, response.addLastName);
-      console.table(addedEmp.sql);
+      console.table(addAnEmployee).sql);
  init();
  })
 })
