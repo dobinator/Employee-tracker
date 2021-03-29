@@ -1,5 +1,5 @@
 const inquirer = require ("inquirer");
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -106,14 +106,14 @@ message: "What is the name of the Employee's role?"
 },
 {
   type: "List",
-  name: "manager",
-  message: "Who is the Employee's manager?"
+  name: "manager_id",
+  message: "Who is the Employee Manager's id?"
 },
 
 
 ]).then(function(response){
   console.log(response);
-  const query = "INSERT INTO employee (first_name, last_name, role, manager) VALUES (?, ?, ?, ?);";
+  const query = "INSERT INTO employee (first_name, last_name, role, manager_id) VALUES (?, ?, ?, ?);";
 
 
   const addEmp = connection.query(
