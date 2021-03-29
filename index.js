@@ -1,14 +1,14 @@
 const inquirer = require ("inquirer");
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
     host: 'localhost',
  // Your port, if not 3306
     port: 3306,
-// Your username
+ // Your username
     user: 'root',
-// Be sure to update with your own MySQL password!
-    password: 'rootroot',
+ // Be sure to update with your own MySQL password!
+    password: '',
     database: 'employee_DB',
   });
   ​
@@ -29,7 +29,7 @@ inquirer.prompt([
   choices: [
   "View All Employees ", 
   "View All Employees By Department", 
-  "View ALL Roles",
+  "View All Roles",
   "Add An Employee",
   "Remove Employee",
   "Update Employee Role",
@@ -125,20 +125,20 @@ message: "What is the name of the Employee's role?"
  });
 })};
 
-function removeEmployee (){
+// function removeEmployee (){
 
 
-};
+// };
 
-function updateEmployeeRole (){
-
-
-};
-
-function updateEmployeeManager(){
+// function updateEmployeeRole (){
 
 
-}; 
+// };
+
+// function updateEmployeeManager(){
+
+
+// }; 
 
   
   
