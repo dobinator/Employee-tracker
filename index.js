@@ -51,7 +51,7 @@ inquirer.prompt([
       case "View All Roles":
       viewRoles();
       break;
-      case "Add An Employee ":
+      case "Add An Employee":
       addAnEmployee();
       break;
       case "Remove An Employee":
@@ -93,11 +93,6 @@ function addAnEmployee(){
   inquirer.prompt([
 {
   type: "input",
-  name: "id",
-  message: "What is the id number of the Employee?"
-},
-{
-  type: "input",
   name: "first_name ",
   message: "What is the first name of the Employee?"
 },
@@ -111,33 +106,33 @@ type: "input",
 name: "role",
 message: "What is the name of the Employee's role?"
 },
+{
+  type: "List",
+  name: "manager",
+  message: "Who is the Employee's manager?"
+},
+
 
 ]).then(function(response){
   console.log(response);
-  const query = "INSERT INTO employee (id, first_name, last_name) VALUES (?, ?, ?);";
+  const query = "INSERT INTO employee (first_name, last_name, role, manager) VALUES (?, ?, ?, ?);";
 
 
   const addEmp = connection.query(
     query, [response.addFirstName, response.addLastName, 
     response.employeeRole, response.employeeManager], function(err, data){
       console.log("Added Employee", response.addFirstName, response.addLastName);
-      console.table(addAnEmployee).sql);
+   
  init();
- })
-})
+ });
 };
 
-
-
-
-
-
-function removeEmployee(){
+function removeEmployee (){
 
 
 };
 
-function  updateEmployeeRole(){
+function updateEmployeeRole (){
 
 
 };

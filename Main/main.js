@@ -16,12 +16,6 @@ const questions = [
         name: "nameofDept ",
         message: "What is the name of the Department?"
     },
-    {
-        type: "List",
-        name: "manager",
-        message: "Who is the Employees manager?"
-    },
-
 ]; 
 
 
