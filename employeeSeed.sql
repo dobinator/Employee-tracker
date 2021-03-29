@@ -35,11 +35,11 @@ VALUES ( "Legal","DeAndre Washington");
 INSERT INTO department ( department_name, department_manager)
 VALUES ( "Engineering","Jason Wong");
 
-INSERT INTO department ( department_name,department_manager)
+INSERT INTO department ( department_name, department_manager)
 VALUES ( "Finance", "Manuel Rodiquez");
 
 INSERT INTO department ( department_name, department_manager)
-VALUES ( "Sales", "Tevin Hughes" );
+VALUES ( "Sales", "Tevin Hughes");
 
 INSERT INTO roles ( title, salary, department_id)
 VALUES ( "Sales Lead", 100000, 4);
