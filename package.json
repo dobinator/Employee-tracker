@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "console.table": "^0.10.0",
+    "console-table": "^0.1.2",
     "inquirer": "^8.0.0",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.2.5"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {},
   "scripts": {
