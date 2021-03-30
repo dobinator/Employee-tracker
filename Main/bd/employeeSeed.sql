@@ -51,13 +51,13 @@ INSERT INTO roles (title, salary, department_id)
 VALUES("Lead Engineering", 150000, 2);
 
 INSERT INTO roles (title, salary, department_id)
-VALUES ( "Software Engineer", 120000, 2);
+VALUES ("Software Engineer", 120000, 2);
 
 INSERT INTO roles (title, salary, department_id)
-VALUES( "Accountant", 125000, 3);
+VALUES("Accountant", 125000, 3);
 
 INSERT INTO roles (title, salary, department_id)
-VALUES( "Legal Team Lead", 250000, 1);
+VALUES("Legal Team Lead", 250000, 1);
 
 INSERT INTO roles (title, salary, department_id)
 VALUES( "Lawyer", 190000, 1);

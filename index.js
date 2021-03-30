@@ -40,7 +40,7 @@ function init() {
       },
     ])
     .then(function (response) {
-      switch (response.whatToDo) {
+      switch (response.action) {
         case "View All Employees":
           viewAllEmployees();
           break;
@@ -78,7 +78,7 @@ function init() {
           connection.end();
       }
     });
-}
+};
 
 function viewAllEmployees() {
   connection.query(
@@ -86,23 +86,23 @@ function viewAllEmployees() {
     console.table(data);
     init();
   });
-}
+};
 
 function viewDepartments() {
   connection.query(
-    "SELECT* FROM department", function (err, data) {
+    "SELECT * FROM department", function (err, data) {
     console.table(data);
     init();
   });
-}
+};
 
 function viewAllRoles() {
   connection.query(
-    "SELECT* FROM roles", function (err, data) {
-    connection.table(data);
+    "SELECT * FROM roles", function (err, data) {
+    console.table(data);
     init();
   });
-}
+};
 
 function addAnEmployee() {
   inquirer
@@ -118,40 +118,43 @@ function addAnEmployee() {
         message: "What is the last name of the Employee?",
       },
       {
-        type: "input",
-        name: "role",
-        message: "What is the name of the Employee's role?",
+        type: "list",
+        name: "role_id",
+        message: "What is the number that corresponds to the Employee's role?",
+        choices: [1, 2, 3, 4, 5, 6, 7, 8],
       },
       {
-        type: "List",
+        type: "list",
         name: "manager_id",
         message: "What is the Employee Manager's id?",
+        choices: [1, 2, 2, 4], 
       },
     ])
     .then(function (response) {
       console.log(response);
-      const query =
-        "INSERT INTO employee (first_name, last_name, role, manager_id) VALUES (?, ?, ?, ?);";
-
-      const addEmp = connection.query(
-        query,
+      const query = connection.query(
+        "INSERT INTO employees ( first_name,last_name,role_id, manager_id) VALUES (?, ?, ?, ?);", 
+       
         [
           response.addFirstName,
           response.addLastName,
           response.employeeRole,
           response.employeeManager,
         ],
-        function (err, data) {
+        (err, data) => {
+          if (err) throw err;
           console.log(
             "Added Employee",
             response.addFirstName,
             response.addLastName
+
           );
 
           init();
         }
       );
     });
+    
 }
 
 function addADepartment(){
