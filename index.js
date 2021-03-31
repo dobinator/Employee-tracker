@@ -58,14 +58,14 @@ function init() {
         case "Add a Role":
           addARole();
           break;
+        case "Update Employee Roles":
+          updateEmployeeRoles();
+          break;
         case "Remove An Employee":
           removeEmployee();
           break;
         case "Delete Roles":
           deleteRoles();
-          break;
-        case "Update Employee Roles":
-          updateEmployeeRoles();
           break;
         case "Update Employee Manager":
           updateEmployeeManager();
@@ -128,7 +128,7 @@ function addAnEmployee() {
     ])
     .then(function (response) {
       console.log(response);
-      connection.query("INSERT INTO employees SET ?", {
+      connection.query('INSERT INTO employees SET ?', {
         first_name: response.first_name,
         last_name: response.last_name,
         role_id: response.role_id,
@@ -136,54 +136,42 @@ function addAnEmployee() {
       }),
         (err, data) => {
           if (err) throw err;
-          console.log(
-            "Added Employee",
-            response.first_name,
-            response.last_name
-          );
-
+          console.log
+          (` ${response.first_name,response.last_name} successfully added to database ` );
           init();
         };
     });
 }
 
 function addADepartment() {
-  inquirer
-    .prompt([
+  inquirer.prompt([
       {
         type: "input",
         name: "department_name",
         message: "Please add a name of the department you would like to add",
       },
-      {
-        type: "input",
-        name: "department_manager",
-        message:
-          "Please add the name of the department manager you would like to add",
-      },
+      
     ])
     .then(function (response) {
       console.log(response);
       connection.query("INSERT INTO department SET ?", {
         department_name: response.department_name,
-        department_manager: response.department_manager,
+      
       }),
         (err, data) => {
           if (err) throw err;
-          console.log(
-            "Added Department",
-            response.department_name,
-            response.department_manager
-          );
-
+          console.log(` ${response.department_name} successfully added to database.`);
           init();
         };
     
     });
-}
+};
+
 function addARole() {
-  inquirer
-    .prompt([
+  connection.query ("SELECT * FROM department;", (err, res)=> {
+    if (err) throw err;
+    let departments = res.map(department => ({name: department.department_name, value: department.department_id  })); 
+  inquirer .prompt([
       {
         type: "input",
         name: "title",
@@ -207,23 +195,19 @@ function addARole() {
         title: response.title,
         salary: response.salary,
         department_id: response.department_id,
-      }),
+      },
         (err, data) => {
           if (err) throw err;
-          console.log(
-            "Added Role",
-            response.title,
-            response.salary,
-            response.department_id
-          );
-
+          console.log( ` ${response.title} successfully added to database.` );
           init();
-        };
-    });
+    })
+  })
+})};
+
+function updateEmployeeRoles(){
+  connection.query("SELECT * FROM roles;", (err, res)=> {
+
+    
+  })
 }
 
-function removeEmployee(){
- inquirer 
-
-
-}
