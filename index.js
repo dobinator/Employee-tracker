@@ -56,15 +56,15 @@ function init() {
         case "Add a Department":
           addADepartment();
           break;
-          case "Add Roles":
-            addRoles();
-            break;
+        case "Add Roles":
+          addRoles();
+          break;
         case "Remove An Employee":
           removeEmployee();
           break;
         case "Delete Roles":
-            deleteRoles();
-            break;
+          deleteRoles();
+          break;
         case "Update Employee Roles":
           updateEmployeeRoles();
           break;
@@ -127,7 +127,7 @@ function addAnEmployee() {
         type: "list",
         name: "manager_id",
         message: "What is the Employee Manager's id?",
-        choices: [1, 2, 2, 4], 
+        choices: [1, 2, 3, 4], 
       },
     ])
     .then(function (response) {
@@ -136,17 +136,17 @@ function addAnEmployee() {
         "INSERT INTO employees ( first_name,last_name,role_id, manager_id) VALUES (?, ?, ?, ?);", 
        
         [
-          response.addFirstName,
-          response.addLastName,
-          response.employeeRole,
-          response.employeeManager,
+          response.first_name,
+          response.last_name,
+          response.role_id,
+          response.manager_id,
         ],
         (err, data) => {
           if (err) throw err;
           console.log(
             "Added Employee",
-            response.addFirstName,
-            response.addLastName
+            response.first_name,
+            response.last_name,
 
           );
 
@@ -162,24 +162,30 @@ function addADepartment(){
     {
     type: "input",
     name: "department",
-    message: "Please add a department name:"
-  }
+    message: "Please add a name of the department you would like to add"
+  },
+  {
+    type: "input",
+    name: "department manager",
+    message: "Please add the name of the department manager you would like to add"
+  },
+
   ]).then (function (response){
     console.log (response);
     const query= 
-    "INSERT INTO department(department_name, department_manager) VALUES (?,?):";
+    "INSERT INTO department (department_name, department_manager) VALUES (?,?):";
     const addDept = connection.query(
       query,
       [
-        response.adddepartmentname,
-        response.adddepartmentmanager,
+        response.department_name,
+        response.department_manager,
        
       ],
-      function (err, data) {
+      function (err, data){
         console.log(
           "Added department",
-          response.adddepartmentname,
-          response.adddepartmentmanager
+          response.department_name,
+          response.adddepartment_manager,
         );
 
         init();
