@@ -12,6 +12,7 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log(`connected as id ${connection.threadId}`);
+
   init();
 });
 
@@ -23,17 +24,17 @@ function init() {
         name: "action",
         message: "What would you like to do?",
         choices: [
-          "View All Employees",
-          "View All Departments",
+          "View All Employees ",
+          "View All Employees By Department",
           "View All Roles",
           "Add An Employee",
           "Add a Department",
           "Add a Role",
+          "Update Employees Role",
           "Remove Employee",
-          "Delete Roles",
-          "Update Employee Roles",
           "Update Employee Manager",
-          "View Employee By Manager",
+          "Remove Manager",
+          "View Budget",
           "EXIT",
         ],
       },
@@ -43,7 +44,7 @@ function init() {
         case "View All Employees":
           viewAllEmployees();
           break;
-        case "View All Departments":
+        case "View All Employees By Department":
           viewDepartments();
           break;
         case "View All Roles":
@@ -52,32 +53,27 @@ function init() {
         case "Add An Employee":
           addAnEmployee();
           break;
-        case "Add a Department":
+          case "Add An Department":
           addADepartment();
           break;
-        case "Add a Role":
+          case "Add A Role":
           addARole();
           break;
-        case "Update Employee Roles":
+        case "Update An Employee":
           updateEmployeeRoles();
           break;
         case "Remove An Employee":
           removeEmployee();
           break;
-        case "Delete Roles":
-          deleteRoles();
-          break;
         case "Update Employee Manager":
           updateEmployeeManager();
-          break;
-        case "View Employee by Department":
-          viewEmployeeByDepartment();
           break;
         default:
           connection.end();
       }
     });
 }
+
 
 function viewAllEmployees() {
   connection.query("SELECT * FROM employees", (err, data) => {
@@ -99,6 +95,7 @@ function viewAllRoles() {
     init();
   });
 }
+
 
 function addAnEmployee() {
   inquirer
@@ -265,3 +262,4 @@ function updateEmployeeRoles() {
       });
   });
 }; 
+
