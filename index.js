@@ -80,21 +80,21 @@ function init() {
 }
 
 function viewAllEmployees() {
-  connection.query("SELECT * FROM employees", function (err, data) {
+  connection.query("SELECT * FROM employees", (err, data) => {
     console.table(data);
     init();
   });
 }
 
 function viewDepartments() {
-  connection.query("SELECT * FROM department", function (err, data) {
+  connection.query("SELECT * FROM department", (err, data) => {
     console.table(data);
     init();
   });
 }
 
 function viewAllRoles() {
-  connection.query("SELECT * FROM roles", function (err, data) {
+  connection.query("SELECT * FROM roles", (err, data) => {
     console.table(data);
     init();
   });
@@ -128,7 +128,7 @@ function addAnEmployee() {
     ])
     .then(function (response) {
       console.log(response);
-      connection.query('INSERT INTO employees SET ?', {
+      connection.query("INSERT INTO employees SET ?", {
         first_name: response.first_name,
         last_name: response.last_name,
         role_id: response.role_id,
@@ -136,78 +136,132 @@ function addAnEmployee() {
       }),
         (err, data) => {
           if (err) throw err;
-          console.log
-          (` ${response.first_name,response.last_name} successfully added to database ` );
+          console.log(
+            ` ${
+              (response.first_name, response.last_name)
+            } successfully added to database `
+          );
           init();
         };
     });
 }
 
 function addADepartment() {
-  inquirer.prompt([
+  inquirer
+    .prompt([
       {
         type: "input",
         name: "department_name",
         message: "Please add a name of the department you would like to add",
       },
-      
     ])
     .then(function (response) {
       console.log(response);
       connection.query("INSERT INTO department SET ?", {
-        department_name: response.department_name,
-      
+        _department_name: response.department_name,
+        get department_name() {
+          return this._department_name;
+        },
+        set department_name(value) {
+          this._department_name = value;
+        },
       }),
         (err, data) => {
           if (err) throw err;
-          console.log(` ${response.department_name} successfully added to database.`);
+          console.log(
+            ` ${response.department_name} successfully added to database.`
+          );
           init();
         };
-    
     });
-};
-
-function addARole() {
-  connection.query ("SELECT * FROM department;", (err, res)=> {
-    if (err) throw err;
-    let departments = res.map(department => ({name: department.department_name, value: department.department_id  })); 
-  inquirer .prompt([
-      {
-        type: "input",
-        name: "title",
-        message: "What is the name of the title you would like to add?",
-      },
-      {
-        type: "input",
-        name: "salary",
-        message: "What is the salary amount?",
-      },
-      {
-        type: "list",
-        name: "department_id",
-        message: "What is the number that corresponds to the department id?",
-        choices: [1, 2, 3, 4, 5],
-      },
-    ])
-    .then(function (response) {
-      console.log(response);
-      connection.query("INSERT INTO roles SET ?", {
-        title: response.title,
-        salary: response.salary,
-        department_id: response.department_id,
-      },
-        (err, data) => {
-          if (err) throw err;
-          console.log( ` ${response.title} successfully added to database.` );
-          init();
-    })
-  })
-})};
-
-function updateEmployeeRoles(){
-  connection.query("SELECT * FROM roles;", (err, res)=> {
-
-    
-  })
 }
 
+function addARole() {
+  connection.query("SELECT * FROM department;", (err, res) => {
+    if (err) throw err;
+    let departments = res.map((department) => ({
+      name: department.department_name,
+      value: department.department_id,
+    }));
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "title",
+          message: "What is the name of the title you would like to add?",
+        },
+        {
+          type: "input",
+          name: "salary",
+          message: "What is the salary amount?",
+        },
+        {
+          type: "list",
+          name: "department_id",
+          message: "What is the number that corresponds to the department id?",
+          choices: [1, 2, 3, 4, 5],
+        },
+      ])
+      .then(function (response) {
+        console.log(response);
+        connection.query(
+          "INSERT INTO roles SET ?",
+          {
+            title: response.title,
+            salary: response.salary,
+            department_id: response.department_id,
+          },
+          (err, data) => {
+            if (err) throw err;
+            console.log(` ${response.title} successfully added to database.`);
+            init();
+          }
+        );
+      });
+  });
+}
+
+function updateEmployeeRoles() {
+  connection.query("SELECT * FROM roles;", (err, res) => {
+    if (err) throw err;
+    let employees = res.map((employee) => ({
+      name: employee.first_name + " " + employee.last_name,
+      value: employee_id,
+    }));
+    inquirer
+      .prompt([
+        {
+          type: "rawlist",
+          name: "employee",
+          message: "Which employee would you like to update?",
+          choices: employees,
+        },
+        {
+          type: "rawlist",
+          name: "NewManager",
+          message: "Whos should the employee's new manager be?",
+          choices: employees,
+        },
+      ])
+      .then((response) => {
+        connection.query(
+          "UPDATE employees set ? WHERE?  ",
+          [
+            {
+              manager_id: response.NewManager,
+            },
+            {
+              employee_id: response.employee,
+            },
+          ],
+          (err, res) => {
+            if (err) throw err;
+            console.log(
+              `Successfully updated employee's manager in the database.`
+            );
+            init();
+          }
+        );
+      });
+  });
+}; 
