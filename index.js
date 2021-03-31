@@ -24,7 +24,7 @@ function init() {
         name: "action",
         message: "What would you like to do?",
         choices: [
-          "View All Employees ",
+          "View All Employees",
           "View All Employees By Department",
           "View All Roles",
           "Add An Employee",
@@ -76,7 +76,9 @@ function init() {
 
 
 function viewAllEmployees() {
+  console.log("hi")
   connection.query("SELECT * FROM employees", (err, data) => {
+    console.log("there")
     console.table(data);
     init();
   });
@@ -102,12 +104,12 @@ function addAnEmployee() {
     .prompt([
       {
         type: "input",
-        name: "first_name ",
+        name: "first_name",
         message: "What is the first name of the Employee?",
       },
       {
         type: "input",
-        name: "last_name ",
+        name: "last_name",
         message: "What is the last name of the Employee?",
       },
       {
@@ -130,7 +132,7 @@ function addAnEmployee() {
         last_name: response.last_name,
         role_id: response.role_id,
         manager_id: response.manager_id,
-      }),
+      },
         (err, data) => {
           if (err) throw err;
           console.log(
@@ -139,8 +141,9 @@ function addAnEmployee() {
             } successfully added to database `
           );
           init();
-        };
-    });
+        }
+      )
+    })
 }
 
 function addADepartment() {
@@ -162,14 +165,16 @@ function addADepartment() {
         set department_name(value) {
           this._department_name = value;
         },
-      }),
+      },
         (err, data) => {
           if (err) throw err;
           console.log(
             ` ${response.department_name} successfully added to database.`
           );
           init();
-        };
+        
+      }
+      )
     });
 }
 
@@ -254,7 +259,7 @@ function updateEmployeeRoles() {
           (err, res) => {
             if (err) throw err;
             console.log(
-              `Successfully updated employee's manager in the database.`
+              `Successfully updated ${response.employee} successfully added in the database.`
             );
             init();
           }
