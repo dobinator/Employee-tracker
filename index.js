@@ -127,7 +127,8 @@ function addAnEmployee() {
     ])
     .then(function (response) {
       console.log(response);
-      connection.query("INSERT INTO employees SET ?", {
+      connection.query("INSERT INTO employees SET ?", 
+      {
         first_name: response.first_name,
         last_name: response.last_name,
         role_id: response.role_id,
@@ -136,17 +137,15 @@ function addAnEmployee() {
         (err, data) => {
           if (err) throw err;
           console.log(
-            ` ${
-              (response.first_name, response.last_name)
-            } successfully added to database `
+      ` ${(response.first_name, response.last_name)} successfully added to database `
           );
           init();
         }
       )
-    })
+    });
 }
 
-function addADepartment() {
+function addADepartment(){
   inquirer
     .prompt([
       {
@@ -158,33 +157,20 @@ function addADepartment() {
     .then(function (response) {
       console.log(response);
       connection.query("INSERT INTO department SET ?", {
-        _department_name: response.department_name,
-        get department_name() {
-          return this._department_name;
+        department_name: response.department_name,
         },
-        set department_name(value) {
-          this._department_name = value;
-        },
-      },
         (err, data) => {
           if (err) throw err;
           console.log(
-            ` ${response.department_name} successfully added to database.`
+            `${(response.department_name)} successfully added to database.`
           );
           init();
-        
       }
       )
     });
 }
 
 function addARole() {
-  connection.query("SELECT * FROM department;", (err, res) => {
-    if (err) throw err;
-    let departments = res.map((department) => ({
-      name: department.department_name,
-      value: department.department_id,
-    }));
     inquirer
       .prompt([
         {
@@ -201,13 +187,12 @@ function addARole() {
           type: "list",
           name: "department_id",
           message: "What is the number that corresponds to the department id?",
-          choices: [1, 2, 3, 4, 5],
+          choices: [1, 2, 3, 4 ]
         },
       ])
       .then(function (response) {
         console.log(response);
-        connection.query(
-          "INSERT INTO roles SET ?",
+        connection.query("INSERT INTO roles SET ?",
           {
             title: response.title,
             salary: response.salary,
@@ -215,13 +200,12 @@ function addARole() {
           },
           (err, data) => {
             if (err) throw err;
-            console.log(` ${response.title} successfully added to database.`);
+            console.log(` ${(response.title)} successfully added to database.`);
             init();
           }
-        );
+        )
       });
-  });
-}
+  }
 
 function updateEmployeeRoles() {
   connection.query("SELECT * FROM roles;", (err, res) => {
@@ -253,13 +237,13 @@ function updateEmployeeRoles() {
               manager_id: response.NewManager,
             },
             {
-              employee_id: response.employee,
+              employee_id: response.employee_id,
             },
           ],
           (err, res) => {
             if (err) throw err;
             console.log(
-              `Successfully updated ${response.employee} successfully added in the database.`
+              `Successfully updated ${response.employee_id} successfully added in the database.`
             );
             init();
           }
