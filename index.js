@@ -208,12 +208,6 @@ function addARole() {
   }
 
 function updateEmployeeRoles() {
-  connection.query("SELECT * FROM roles;", (err, res) => {
-    if (err) throw err;
-    let employees = res.map((employee) => ({
-      name: employee.first_name + " " + employee.last_name,
-      value: employee_id,
-    }));
     inquirer
       .prompt([
         {
@@ -249,6 +243,5 @@ function updateEmployeeRoles() {
           }
         );
       });
-  });
-}; 
+  }; 
 
