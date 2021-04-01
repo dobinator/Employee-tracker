@@ -225,7 +225,7 @@ function updateEmployeeRoles() {
         {
           type: "rawlist",
           name: "NewManager",
-          message: "Whos should the employee's new manager be?",
+          message: "Who is the employee's new manager?",
           choices: employees,
         },
       ])
@@ -243,7 +243,7 @@ function updateEmployeeRoles() {
           (err, res) => {
             if (err) throw err;
             console.log(
-              `Successfully updated ${response.employee_id} successfully added in the database.`
+              `Successfully updated ${(response.employee_id)} successfully added in the database.`
             );
             init();
           }
