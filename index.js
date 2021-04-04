@@ -30,8 +30,8 @@ function init() {
           "Add An Employee",
           "Add a Department",
           "Add a Role",
-          "Update Employees Role",
-          "Remove Employee",
+          "Update an Employee",
+          "Remove an Employee",
           "Update Employee Manager",
           "Remove Manager",
           "View Budget",
@@ -53,10 +53,10 @@ function init() {
         case "Add An Employee":
           addAnEmployee();
           break;
-          case "Add An Department":
+        case "Add a Department":
           addADepartment();
           break;
-          case "Add A Role":
+        case "Add A Role":
           addARole();
           break;
         case "Update An Employee":
@@ -68,36 +68,39 @@ function init() {
         case "Update Employee Manager":
           updateEmployeeManager();
           break;
+        case "Remove Employee":
+          removeEmployee();
+          break;
+        case "View Budget":
+          viewBudget();
+          break;
+
         default:
           connection.end();
       }
     });
 }
 
-
 function viewAllEmployees() {
-  console.log("hi")
-  connection.query("SELECT * FROM employees", (err, data) => {
-    console.log("there")
+  connection.query("SELECT * FROM employees;", (err, data) => {
     console.table(data);
     init();
   });
 }
 
 function viewDepartments() {
-  connection.query("SELECT * FROM department", (err, data) => {
+  connection.query("SELECT * FROM department;", (err, data) => {
     console.table(data);
     init();
   });
 }
 
 function viewAllRoles() {
-  connection.query("SELECT * FROM roles", (err, data) => {
+  connection.query("SELECT * FROM roles;", (err, data) => {
     console.table(data);
     init();
   });
 }
-
 
 function addAnEmployee() {
   inquirer
@@ -127,25 +130,28 @@ function addAnEmployee() {
     ])
     .then(function (response) {
       console.log(response);
-      connection.query("INSERT INTO employees SET ?", 
-      {
-        first_name: response.first_name,
-        last_name: response.last_name,
-        role_id: response.role_id,
-        manager_id: response.manager_id,
-      },
+      connection.query(
+        "INSERT INTO employees SET ?",
+        {
+          first_name: response.first_name,
+          last_name: response.last_name,
+          role_id: response.role_id,
+          manager_id: response.manager_id,
+        },
         (err, data) => {
           if (err) throw err;
           console.log(
-      ` ${(response.first_name, response.last_name)} successfully added to database `
+            ` ${
+              (response.first_name, response.last_name)
+            } successfully added to database `
           );
           init();
         }
-      )
+      );
     });
 }
 
-function addADepartment(){
+function addADepartment() {
   inquirer
     .prompt([
       {
@@ -156,92 +162,204 @@ function addADepartment(){
     ])
     .then(function (response) {
       console.log(response);
-      connection.query("INSERT INTO department SET ?", {
-        department_name: response.department_name,
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          department_name: response.department_name,
         },
         (err, data) => {
           if (err) throw err;
           console.log(
-            `${(response.department_name)} successfully added to database.`
+            `${response.department_name} successfully added to database.`
           );
           init();
-      }
-      )
+        }
+      );
     });
 }
 
 function addARole() {
-    inquirer
-      .prompt([
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the name of the title you would like to add?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "What is the salary amount?",
+      },
+      {
+        type: "list",
+        name: "department_id",
+        message: "What is the number that corresponds to the department id?",
+        choices: [1, 2, 3, 4],
+      },
+    ])
+    .then(function (response) {
+      console.log(response);
+      connection.query(
+        "INSERT INTO roles SET ?",
         {
-          type: "input",
-          name: "title",
-          message: "What is the name of the title you would like to add?",
+          title: response.title,
+          salary: response.salary,
+          department_id: response.department_id,
         },
-        {
-          type: "input",
-          name: "salary",
-          message: "What is the salary amount?",
-        },
-        {
-          type: "list",
-          name: "department_id",
-          message: "What is the number that corresponds to the department id?",
-          choices: [1, 2, 3, 4 ]
-        },
-      ])
-      .then(function (response) {
-        console.log(response);
-        connection.query("INSERT INTO roles SET ?",
+        (err, data) => {
+          if (err) throw err;
+          console.log(` ${response.title} successfully added to database.`);
+          init();
+        }
+      );
+    });
+}
+
+function  updateEmployeeRoles() {
+connection.query ("SELECT * FROM roles;"), (err, res)=> {
+    if (err) throw err;
+    let roles = res.map(role=> ({name:role.title, value: role.role_id}));
+    connection.query("SELECT * FROM employees", (err, res)=> {
+      if (err) throw err;
+      let employees = res.map(employees=> ({name: employee.first_name + ' ' + employee.last_name, 
+      value: employee.employee_id}));
+     inquirer.prompt ([
+       {
+         type: "rawlist", 
+         name: "employee",
+         message: "Which employee would you like to update their role?",
+         choices: employees 
+       },
+       {
+        type: "rawlist",
+        name: "newRole",
+        message: "what should the employee's new role be?", 
+        choices: roles
+       },
+     ]).then ((response)=> {
+       connection.query ("UPDATE employees SET ? WHERE ?",
+       [
+
+         {
+          
+          role_id:response.newRole,
+         },
+         {
+          
+          employee_id: response.employee,
+         },
+
+       ],
+       (err, res)=> {
+         if(err) throw err;
+         console.log (`Successfully updated employee's role into the database`);
+
+         init()
+       });
+  
+     });
+
+    });
+}}; 
+
+
+
+function updateEmployeeManager() {
+  connection.query ("SELECT * FROM employees;", (err, data) => {
+  if (err) throw err; 
+  let employeesArr = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employee_id}))
+  inquirer
+    .prompt([
+      {
+        type: "rawlist",
+        name: "employee",
+        message: "Which employee would you like to update?",
+        choices: employeeArr
+      },
+      {
+        type: "rawlist",
+        name: "NewManager",
+        message: "Who is the employee's new manager?",
+        choices: employeeArr
+      },
+    ])
+    .then((response) => {
+      connection.query(
+        "UPDATE employees set ? WHERE ?  ",
+        [
           {
-            title: response.title,
-            salary: response.salary,
-            department_id: response.department_id,
+            manager_id: response.NewManager,
           },
-          (err, data) => {
-            if (err) throw err;
-            console.log(` ${(response.title)} successfully added to database.`);
-            init();
-          }
-        )
-      });
-  }
+          {
+            employee_id: response.employee_id,
+          },
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.log(
+            `Successfully updated ${response.employee_id} successfully added in the database.`
+          );
+          init();
+        }
+      );
+    });
+  })
+};
 
-function updateEmployeeRoles() {
-    inquirer
-      .prompt([
-        {
-          type: "rawlist",
-          name: "employee",
-          message: "Which employee would you like to update?",
-          choices: employees,
-        },
-        {
-          type: "rawlist",
-          name: "NewManager",
-          message: "Who is the employee's new manager?",
-          choices: employees,
-        },
-      ])
-      .then((response) => {
-        connection.query(
-          "UPDATE employees set ? WHERE?  ",
-          [
-            {
-              manager_id: response.NewManager,
-            },
-            {
-              employee_id: response.employee_id,
-            },
-          ],
-          (err, res) => {
-            if (err) throw err;
-            console.log(
-              `Successfully updated ${(response.employee_id)} successfully added in the database.`
-            );
-            init();
-          }
-        );
-      });
-  }; 
 
+function removeEmployee() {
+connection.query ("SELECT * FROM employees ORDER By employee_id ASC;",(err, res)=>{
+ if (err) throw err;
+ let employeesRem = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employees_id })); 
+inquirer.prompt ([
+ {
+  type: "rawlist",
+  name: "employee",
+  messages: "Which employee would you like to remove?",
+  choices: employeesRem
+ },
+]). then ((response)=> {
+connection.query ("DELETE FROM employee WHERE ?",
+[
+  { 
+    employee_id: response.employee,
+  },
+],
+(err, res) => {
+
+  if(err) throw err;
+  console.log (`Successfully removed the employee from the database`);
+  init();
+});
+});
+});
+}
+
+function viewBudget(){
+connection.query ("SELECT * FROM department ORDER BY department_id ASC;")
+ if (err) throw err; 
+ let departments= res.map(department => ({name: department.departments_name, value: department.department_id }));
+inquirer.prompt([
+{
+type: "rawlist",
+name: "deptName",
+message: "Which department salaries would you like to view?",
+choices: departments
+},
+]).then ((response)=> {
+connection.query ("SELECT department_id, SUM(role.salary) AS total_salary FROM role WHERE ?",
+[
+  {
+department_id: response.deptName,
+
+  },
+
+],
+ (err, res) => {
+  if (err) throw err;
+  console.log (`The total utilized salary budget of the ${response.deptName} department is $  `);
+    init(); 
+ })
+})
+}
