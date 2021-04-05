@@ -28,10 +28,10 @@ function init() {
           "View All Employees By Department",
           "View All Roles",
           "Add An Employee",
-          "Add a Department",
-          "Add a Role",
-          "Update an Employee",
-          "Remove an Employee",
+          "Add A Department",
+          "Add A Role",
+          "Update An Employee",
+          "Remove An Employee",
           "Update Employee Manager",
           "Remove Manager",
           "View Budget",
@@ -53,7 +53,7 @@ function init() {
         case "Add An Employee":
           addAnEmployee();
           break;
-        case "Add a Department":
+        case "Add A Department":
           addADepartment();
           break;
         case "Add A Role":
