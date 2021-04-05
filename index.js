@@ -217,7 +217,7 @@ function addARole() {
 }
 
 function  updateEmployeeRoles() {
-connection.query ("SELECT * FROM roles;"), (err, res)=> {
+connection.query ("SELECT * FROM roles"), (err, res)=> {
     if (err) throw err;
     let roles = res.map(role=> ({name:role.title, value: role.role_id}));
     connection.query("SELECT * FROM employees", (err, res)=> {
@@ -266,7 +266,7 @@ connection.query ("SELECT * FROM roles;"), (err, res)=> {
 
 
 function updateEmployeeManager() {
-  connection.query ("SELECT * FROM employees;", (err, data) => {
+  connection.query ("SELECT * FROM employees", (err, data) => {
   if (err) throw err; 
   let employeesArr = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employee_id}))
   inquirer
@@ -309,7 +309,7 @@ function updateEmployeeManager() {
 
 
 function removeEmployee() {
-connection.query ("SELECT * FROM employees ORDER By employee_id ASC;",(err, res)=>{
+connection.query ("SELECT * FROM employees ORDER By employee_id ASC",(err, res)=>{
  if (err) throw err;
  let employeesRem = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employees_id })); 
 inquirer.prompt ([
@@ -337,7 +337,7 @@ connection.query ("DELETE FROM employee WHERE ?",
 }
 
 function viewBudget(){
-connection.query ("SELECT * FROM department ORDER BY department_id ASC;")
+connection.query ("SELECT * FROM department ORDER BY department_id ASC")
  if (err) throw err; 
  let departments= res.map(department => ({name: department.departments_name, value: department.department_id }));
 inquirer.prompt([
