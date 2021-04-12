@@ -216,15 +216,30 @@ function addARole() {
     });
 }
 
-function  updateEmployeeRoles() {
-connection.query ("SELECT * FROM roles"), (err, res)=> {
-    if (err) throw err;
-    let roles = res.map(role => ({name:role.title, value: role.role_id}));
-    connection.query("SELECT * FROM employees", (err, res)=> {
-      if (err) throw err;
-      let employees = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, 
-      value: employee.employee_id}));
-     inquirer.prompt ([
+function updateEmployeeRoles() {
+  console.log("hit----------")
+// const employeeRoles = await connection.query ("SELECT id, first_name, last_name,role_id, manager_id FROM roles")
+
+    // let roles = res.map(role => ({name:role.title, value: role.role_id}));
+    //const employee = await connection.query("SELECT id, first_name, last_name, role_id, manager_id, FROM employees")
+   
+
+ connection.query("SELECT id, first_name, last_name, role_id, manager_id FROM employees;", (err, data) => {
+    //get all of the employee data
+    //inquire.prompt with employee data to decide which employee to change,, NAME
+    //when we select the employee, we ask what do you want to change thier role_id to, ROLEID
+    //then we run a MYSQL update query where first_name = NAME, set role_id=ROLEId
+    
+    console.log(data);
+    //so data is everything
+    let employees = []
+    for(let obj of data){
+      console.log(obj.first_name)
+      employees.push(obj.first_name)
+    }
+    console.log("employees: ", employees)
+
+   inquirer.prompt ([
        {
          type: "rawlist", 
          name: "employee",
@@ -235,7 +250,7 @@ connection.query ("SELECT * FROM roles"), (err, res)=> {
         type: "rawlist",
         name: "newRole",
         message: "what should the employee's new role be?", 
-        choices: roles
+        choices: [1,2,3,4]
        },
      ]).then ((response)=> {
        connection.query ("UPDATE employees SET ? WHERE ?",
@@ -247,7 +262,7 @@ connection.query ("SELECT * FROM roles"), (err, res)=> {
          },
          {
           
-          employee_id: response.employee,
+          first_name: response.employee,
          },
 
        ],
@@ -259,107 +274,111 @@ connection.query ("SELECT * FROM roles"), (err, res)=> {
        });
   
      });
-
-    });
-}}; 
-
-
-
-function updateEmployeeManager() {
-  connection.query ("SELECT * FROM employees", (err, data) => {
-  if (err) throw err; 
-  let employeesArr = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employee_id}))
-  inquirer
-    .prompt([
-      {
-        type: "rawlist",
-        name: "employee",
-        message: "Which employee would you like to update?",
-        choices: employeeArr
-      },
-      {
-        type: "rawlist",
-        name: "NewManager",
-        message: "Who is the employee's new manager?",
-        choices: employeeArr
-      },
-    ])
-    .then((response) => {
-      connection.query(
-        "UPDATE employees set ? WHERE ?  ",
-        [
-          {
-            manager_id: response.NewManager,
-          },
-          {
-            employee_id: response.employee_id,
-          },
-        ],
-        (err, res) => {
-          if (err) throw err;
-          console.log(
-            `Successfully updated ${response.employee_id} successfully added in the database.`
-          );
-          init();
-        }
-      );
-    });
+    
   })
-};
+  
+  
+
+    }
 
 
-function removeEmployee() {
-connection.query ("SELECT * FROM employees",(err, res)=>{
- if (err) throw err;
- let employeesRem = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employees_id })); 
-inquirer.prompt ([
- {
-  type: "rawlist",
-  name: "employee",
-  messages: "Which employee would you like to remove?",
-  choices: employeesRem
- },
-]). then ((response)=> {
-connection.query ("DELETE FROM employee WHERE ?",
-[
-  { 
-    employee_id: response.employee,
-  },
-],
-(err, res) => {
 
-  if(err) throw err;
-  console.log (`Successfully removed the employee from the database`);
-  init();
-});
-});
-});
-}
 
-function viewBudget(){
-connection.query ("SELECT * FROM department")
- if (err) throw err; 
- let departments= res.map(department => ({name: department.departments_name, value: department.department_id }));
-inquirer.prompt([
-{
-type: "rawlist",
-name: "deptName",
-message: "Which department salaries would you like to view?",
-choices: departments
-},
-]).then ((response)=> {
-connection.query ("SELECT department_id, SUM(role.salary) AS total_salary FROM role WHERE ?",
-[
-  {
-department_id: response.deptName,
+// function updateEmployeeManager() {
+//   connection.query ("SELECT * FROM employees", (err, data) => {
+//   if (err) throw err; 
+//   let employeesArr = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employee_id}))
+//   inquirer
+//     .prompt([
+//       {
+//         type: "rawlist",
+//         name: "employee",
+//         message: "Which employee would you like to update?",
+//         choices: employeeArr
+//       },
+//       {
+//         type: "rawlist",
+//         name: "NewManager",
+//         message: "Who is the employee's new manager?",
+//         choices: employeeArr
+//       },
+//     ])
+//     .then((response) => {
+//       connection.query(
+//         "UPDATE employees set ? WHERE ?  ",
+//         [
+//           {
+//             manager_id: response.NewManager,
+//           },
+//           {
+//             employee_id: response.employee_id,
+//           },
+//         ],
+//         (err, res) => {
+//           if (err) throw err;
+//           console.log(
+//             `Successfully updated ${response.employee_id} successfully added in the database.`
+//           );
+//           init();
+//         }
+//       );
+//     });
+//   })
+// };
 
-  },
 
-],
- (err, res) => {
-  if (err) throw err;
-  console.log (`The total utilized salary budget of the ${response.deptName} department is $  `);
-    init(); 
- })
-})
-}
+// function removeEmployee() {
+// connection.query ("SELECT * FROM employees",(err, res)=>{
+//  if (err) throw err;
+//  let employeesRem = res.map(employees => ({name: employee.first_name + ' ' + employee.last_name, value: employees_id })); 
+// inquirer.prompt ([
+//  {
+//   type: "rawlist",
+//   name: "employee",
+//   messages: "Which employee would you like to remove?",
+//   choices: employeesRem
+//  },
+// ]). then ((response)=> {
+// connection.query ("DELETE FROM employee WHERE ?",
+// [
+//   { 
+//     employee_id: response.employee,
+//   },
+// ],
+// (err, res) => {
+
+//   if(err) throw err;
+//   console.log (`Successfully removed the employee from the database`);
+//   init();
+// });
+// });
+// });
+// }
+
+// function viewBudget(){
+// connection.query ("SELECT * FROM department")
+//  if (err) throw err; 
+//  let departments= res.map(department => ({name: department.departments_name, value: department.department_id }));
+// inquirer.prompt([
+// {
+// type: "rawlist",
+// name: "deptName",
+// message: "Which department salaries would you like to view?",
+// choices: departments
+// },
+// ]).then ((response)=> {
+// connection.query ("SELECT department_id, SUM(role.salary) AS total_salary FROM role WHERE ?",
+// [
+//   {
+// department_id: response.deptName,
+
+//   },
+
+// ],
+//  (err, res) => {
+//   if (err) throw err;
+//   console.log (`The total utilized salary budget of the ${response.deptName} department is $  `);
+//     init(); 
+//  })
+// })
+// }
