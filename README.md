@@ -30,9 +30,11 @@ n/a
   If you have any questions about the application my Github user name is Dobinator and my email is dobsonemily@gmail.com
 
 * Video:
+
  https://www.youtube.com/watch?v=kz1szIe2SC4
 
 * Still:
+
   ![Employee tracker](assets/screenshot.png)
 
 
