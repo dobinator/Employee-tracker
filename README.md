@@ -35,7 +35,7 @@ n/a
 
 * Still:
 
-  ![Employee tracker](assets/screen.png)
+![Employee tracker](assets/screen.png)
 
  This still is showing up in my readme, but not in github. If this persists, this is an error on githubs side, as I renamed the image "screen".
   
