@@ -35,7 +35,7 @@ n/a
 
 * Still:
 
-  ![Employee tracker](assets/screenshot.png)
+  ![Employee tracker](assets/screen.png)
 
 
   
