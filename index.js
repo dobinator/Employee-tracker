@@ -238,11 +238,7 @@ function updateEmployeeRoles() {
    
 
  connection.query("SELECT id, first_name, last_name, role_id, manager_id FROM employees;", (err, data) => {
-    //get all of the employee data
-    //inquire.prompt with employee data to decide which employee to change,, NAME
-    //when we select the employee, we ask what do you want to change thier role_id to, ROLEID
-    //then we run a MYSQL update query where first_name = NAME, set role_id=ROLEId
-    
+
     console.log(data);
     //so data is everything
     let employees = []
