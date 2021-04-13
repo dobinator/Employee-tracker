@@ -35,10 +35,13 @@ n/a
 
 * Still:
 
-![Employee tracker](assets/screen.png)
+![Employee tracker](/Assets/screen.png)
 
  This still is showing up in my readme, but not in github. If this persists, this is an error on githubs side, as I renamed the image "screen".
-  
+
+ 
+  https://github.com/dobinator/Employee-tracker/blob/main/Assets/screen.png
+
 
 
 
